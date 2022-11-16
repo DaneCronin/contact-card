@@ -1,8 +1,9 @@
 //Import Modules
 import  "./form";
-import {getDb, initdb, postDb} from './database';
+import {getDb, initdb, postDb, deleteDb} from './database';
 import { fetchCards } from './cards';
 import {toggleForm, clearForm} from './form';
+
 
 
 //Import Bootstrap
@@ -52,7 +53,17 @@ if (submitBtnToUpdate == false) {
   fetchCards();
     // Toggles the submit button back to POST functionality
   submitBtnToUpdate = false;
-}
+};
+
+//Delete function 
+window.deleteCard =(e) => {
+  //Grabs the id from the button element attached to contact card
+  let id = parseInt(e.id);
+  //delete the card
+  deleteDb();
+  //reload the DOM
+  fetchCards();
+};
 
 // Clear form
 clearForm();
