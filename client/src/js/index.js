@@ -1,3 +1,6 @@
+//Variables 
+const installBtn = document.getElementById('installBtn');
+
 //Import Modules
 import  "./form";
 import {getDb, initdb, postDb, deleteDb, editDb} from './database';
@@ -18,6 +21,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Logo from '../images/logo.png';
 import Bear from '../images/bear.png';
 import Dog from '../images/dog.png';
+
 
 
 //Add images on load
@@ -112,5 +116,20 @@ if('serviceWorker' in navigator) {
   })
 };
 
+// Function to add event listener and run install 
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  installBtn.style.visibility = 'visible';
 
+  installBtn.addEventListener('click', () => {
+    event.prompt();
+    installBtn.setAttribute('disabled', true);
+    installBtn.textContent = 'Installed!';
+  });
+
+});
+
+window.addEventListener('appinstalled', (event) => {
+  console.log('Success!', 'appinstalled', event);
+});
 
