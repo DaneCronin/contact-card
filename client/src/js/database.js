@@ -36,13 +36,7 @@ export const getDb = async() => {
     console.log('result.value', result);
     return result;
 
-    //Create connection to new database:
-//     const contactDb = await openDB('library_db', 1.0);
-// const tx = contactDb.transaction('books', 'readonly');
-// const store = tx.objectStore('books');
-// const request = store.getAll();
-// const result = await request;
-// return result;
+
 };
 
 //Export a function to POST to the database
