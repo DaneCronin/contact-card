@@ -1,22 +1,24 @@
 //Import Modules
 import  "./form";
 import {getDb, initdb, postDb, deleteDb, editDb} from './database';
-import { fetchCards } from './cards';
+import { fetchCards } from './card';
 import {toggleForm, clearForm} from './form';
 
 
+ //Import CSS Files
+ import "../css/index.css";
 
 //Import Bootstrap
 import { Tooltip, Toast, Popover } from 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-  //Import CSS Files
-  import "../css/index.css";
+ 
 
 //Import Images
 import Logo from '../images/logo.png';
 import Bear from '../images/bear.png';
 import Dog from '../images/dog.png';
+
 
 //Add images on load
 window.addEventListener('load', function () {
@@ -62,7 +64,14 @@ editDb(profileId, name, email, phone, profile);
   fetchCards();
     // Toggles the submit button back to POST functionality
   submitBtnToUpdate = false;
-};
+}
+ // Clear form
+ clearForm();
+ // Toggle form
+ toggleForm();
+ // Reload the DOM
+ fetchCards();
+})
 
 //Delete function 
 window.deleteCard =(e) => {
@@ -95,11 +104,13 @@ window.editCard = (e) => {
 };
 
 
+//Register Service Worker
+if('serviceWorker' in navigator) {
+  //use the window load event to keep the page load performant
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js');
+  })
+};
 
-// Clear form
-clearForm();
-// Toggle form
-toggleForm();
-// Reload the DOM
-fetchCards();
-});
+
+

@@ -1,7 +1,11 @@
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const {InjectManifest} = require('workbox-webpack-plugin');
+
+const path = require('path');
 
 module.exports = {
+  mode: 'development',
     entry: "./src/js/index.js",
     output: { 
         filename: "bundle.js",
@@ -9,10 +13,16 @@ module.exports = {
 
     },
     plugins: [
+      new InjectManifest({
+        swSrc: './src/sw.js',
+        swDest: 'service-worker.js'
+      }),
       new HtmlWebpackPlugin({
         template: './index.html',
         title: 'Webpack Plugin',
-      })
+      }),
+      new MiniCssExtractPlugin(),
+    
     ],
     module: {
         rules: [
@@ -22,11 +32,11 @@ module.exports = {
             },
             {
                 test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
+                use: [MiniCssExtractPlugin.loader, 'css-loader'],
               },
               {
                 test: /\.m?js$/,
-                exclude: /node_modules/,
+                exclude: /(node_modules|bower_components)/,
                 use: {
                   loader: 'babel-loader',
                   options: {
@@ -40,3 +50,4 @@ module.exports = {
     },
 
 };
+
