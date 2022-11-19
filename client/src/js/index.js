@@ -3,7 +3,7 @@ const installBtn = document.getElementById('installBtn');
 
 //Import Modules
 import  "./form";
-import {getDb, initdb, postDb, deleteDb, editDb} from './database';
+import {initdb, postDb, deleteDb, editDb} from './database';
 import { fetchCards } from './card';
 import {toggleForm, clearForm} from './form';
 
@@ -77,12 +77,15 @@ editDb(profileId, name, email, phone, profile);
  fetchCards();
 })
 
+
+//Card Functionality
+
 //Delete function 
 window.deleteCard =(e) => {
   //Grabs the id from the button element attached to contact card
   let id = parseInt(e.id);
   //delete the card
-  deleteDb();
+  deleteDb(id);
   //reload the DOM
   fetchCards();
 };
@@ -109,12 +112,14 @@ window.editCard = (e) => {
 
 
 //Register Service Worker
-if('serviceWorker' in navigator) {
-  //use the window load event to keep the page load performant
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js');
-  })
-};
+// Checks to see if serviceWorker exists in the navigator and installs our service worker configurations
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./service-worker.js').then(function(reg) {
+      console.log('Successfully registered service worker', reg);
+  }).catch(function(err) {
+      console.warn('Error whilst registering service worker', err);
+  });
+}
 
 // Function to add event listener and run install 
 window.addEventListener('beforeinstallprompt', (event) => {
